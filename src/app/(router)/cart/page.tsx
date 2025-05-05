@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Trash2, ShoppingBag, Plus, Minus } from "lucide-react";
+import { Trash2, ShoppingBag, Plus, Minus,  } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,14 +13,13 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-
+import Link from "next/link";
 export default function CartPage() {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
-    // Retrieve cart items from localStorage
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
     setCartItems(storedCart);
     setLoading(false);
@@ -46,8 +45,8 @@ export default function CartPage() {
     setTotalPrice(total);
   };
 
-  const removeItem = (id) => {
-    const updatedCart = cartItems.filter((item) => item.id !== id);
+  const removeItem = (id:any) => {
+    const updatedCart = cartItems.filter((item:any) => item.id !== id);
     setCartItems(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
 
@@ -68,24 +67,26 @@ export default function CartPage() {
       <div className="flex items-center justify-center h-screen">
         <div className="text-lg">Loading cart...</div>
       </div>
-    );
+    )
   }
-
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 mt-[20px]">
       <h1 className="text-3xl font-bold mb-8 flex items-center gap-2">
         <ShoppingBag className="h-8 w-8" />
         Shopping Cart
       </h1>
 
       {cartItems.length === 0 ? (
-        <div className="text-center py-16">
+        <div className="text-center py-16 mt-[20px]">
           <ShoppingBag className="mx-auto h-16 w-16 text-gray-400 mb-4" />
           <h2 className="text-xl font-semibold mb-2">Your cart is empty</h2>
           <p className="text-gray-500 mb-8">
             Looks like you haven't added any products to your cart yet.
           </p>
+          <Link href="/product">
           <Button>Continue Shopping</Button>
+          </Link>
+          
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
